@@ -8,9 +8,9 @@ db.once('open', function() {
   console.log('Connected!');
 });
 var repoSchema = mongoose.Schema({
-	id: Number,
-	username: String,
-	url: Array
+	id: {type: Number, unipue: true},
+	login: {type: String},
+	html_url: {type :String}
 });
 
 

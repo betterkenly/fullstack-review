@@ -8,19 +8,49 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      repos: []
+      repos: [],
+      user: 'betterkenly'
     }
 
   }
+   getThatRepos () {
+    console.log(this.state.repos);
+    var username = this.state.user;
+    console.log(username);
+    $.ajax({
+      method: 'GET',
+      url: '/repos',
+      data: { username: username },
+      success: (repos) => {
+        this.setState({repos: JSON.parse(repos)});
+      },
+      error: () => {
+        console.log('ERROR');
+      }
+    });
+
+  }
+
+  componentDidMount() {
+    this.getThatRepos();
+  }
 
   search (term) {
-    
+
+    this.setState({user: term});
+
     console.log(`${term} was searched`);
-    $.ajax({
-  method: "POST",
-  url: "/repos/import",
-  data: { username: term }
-});
+      $.ajax({
+      method: "POST",
+      url: "/repos/import",
+      data: { username: term },
+      success: () => {
+        console.log('success!');
+      },
+      error: () => {
+        console.log('ERROR');
+      }
+    });
 
   }
 
